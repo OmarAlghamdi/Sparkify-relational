@@ -10,38 +10,38 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays (
 songplay_id SERIAL PRIMARY KEY,
-start_time int8 NOT NULL,
-user_id varchar NOT NULL,
-level char(4) NOT NULL,
+start_time bigint,
+user_id int,
+level char(4),
 song_id varchar,
-artist_id int,
-session_id int NOT NULL,
+artist_id varchar,
+session_id int,
 location varchar,
-user_agent varchar NOT NULL
+user_agent varchar 
 )
 """)
 
 user_table_create = ("""CREATE TABLE IF NOT EXISTS users (
 user_id int PRIMARY KEY,
-first_name varchar NOT NULL,
-last_name varchar NOT NULL,
-gender char(1) NOT NULL,
-level char(4) NOT NULL
+first_name varchar,
+last_name varchar,
+gender char(1),
+level char(4)
 )
 """)
 
 song_table_create = ("""create table if not exists songs (
 song_id varchar PRIMARY KEY,
-title varchar NOT NULL,
-artist_id varchar NOT NULL,
+title varchar,
+artist_id varchar,
 year int,
-duration real NOT NULL
+duration real
 )
 """)
 
 artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists (
 artist_id varchar PRIMARY KEY,
-name varchar NOT NULL,
+name varchar,
 location varchar,
 latitude real,
 longitude real
@@ -49,13 +49,13 @@ longitude real
 """)
 
 time_table_create = ("""CREATE TABLE IF NOT EXISTS time (
-start_time int8 NOT NULL,
-hour int NOT NULL, 
-day int NOT NULL, 
-week int NOT NULL, 
-month int NOT NULL,
-year int NOT NULL,
-weekday varchar NOT NULL
+start_time bigint PRIMARY KEY,
+hour int, 
+day int, 
+week int, 
+month varchar,
+year int,
+weekday varchar
 )
 """)
 
@@ -69,22 +69,27 @@ VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
 user_table_insert = ("""INSERT INTO users 
 (user_id, first_name, last_name, gender, level)
 VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT (user_id) DO UPDATE
+SET level=EXCLUDED.level
 """)
 
 song_table_insert = ("""INSERT INTO songs 
 (song_id, artist_id, year, duration, title)
 VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT (song_id) DO NOTHING
 """)
 
 artist_table_insert = ("""INSERT INTO artists 
 (artist_id, name, location, latitude, longitude)
 VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT (artist_id) DO NOTHING
 """)
 
 
 time_table_insert = ("""INSERT INTO time 
 (start_time, hour, day, week, month, year, weekday)
 VALUES (%s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT (start_time) DO NOTHING
 """)
 
 # FIND SONGS
