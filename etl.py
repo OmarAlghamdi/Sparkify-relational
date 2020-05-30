@@ -16,11 +16,38 @@ def process_song_file(cur, filepath):
     
     # insert artist record
     artist_data = df.loc[:, ['artist_id', 'artist_name', 'artist_location', 'artist_latitude', 'artist_longitude']].values.tolist()[0]
-    try:
-        cur.execute(artist_table_insert, artist_data)
-    except psycopg2.errors.UniqueViolation:
-        print('duplicate artist was skipped')
-        
+    cur.execute(artist_table_insert, artist_data)
+    
+    
+def transform_month(m):
+    months = {
+        1: 'January',
+        2: 'Fabruary',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December',
+    }
+    return months.get(m)
+    
+def transform_weekday(wd):
+    weekdays = {
+        0:'Monday',
+        1:'Tuesday',
+        2:'Wednesday',
+        3:'Thursday',
+        4:'Friday',
+        5:'Saturday',
+        6:'Sunday'
+    }
+    return weekdays.get(wd)
+
 
 def process_log_file(cur, filepath):
     # open log file
@@ -31,6 +58,7 @@ def process_log_file(cur, filepath):
 
     # convert timestamp column to datetime
     ts = df.loc[:, 'ts']
+    ts.drop_duplicates(inplace=True)
     t = ts.apply(pd.to_datetime)
     
     # insert time data records
@@ -38,6 +66,9 @@ def process_log_file(cur, filepath):
            'week': t.dt.week.values, 'month': t.dt.month.values, 'year': t.dt.year.values,
                  'weekday': t.dt.weekday}
     time_df = pd.DataFrame(time_data)
+    
+    time_df.month = time_df['month'].transform(transform_month)
+    time_df.weekday = time_df['weekday'].transform(transform_weekday)
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
@@ -48,10 +79,7 @@ def process_log_file(cur, filepath):
 
     # insert user records
     for i, row in user_df.iterrows():
-        try:
-            cur.execute(user_table_insert, row)
-        except psycopg2.errors.UniqueViolation:
-            print('duplicate user was skipped')
+        cur.execute(user_table_insert, row)
             
 
     # insert songplay records
@@ -91,7 +119,6 @@ def main():
     cur = conn.cursor()
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
-    conn.autocommit = True
     process_data(cur, conn, filepath='data/log_data', func=process_log_file)
 
     conn.close()
