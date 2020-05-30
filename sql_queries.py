@@ -12,7 +12,7 @@ songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays (
 songplay_id SERIAL PRIMARY KEY,
 start_time bigint,
 user_id int,
-level char(4),
+level char(4) CHECK (level IN ('paid', 'free')),
 song_id varchar,
 artist_id varchar,
 session_id int,
@@ -25,8 +25,8 @@ user_table_create = ("""CREATE TABLE IF NOT EXISTS users (
 user_id int PRIMARY KEY,
 first_name varchar,
 last_name varchar,
-gender char(1),
-level char(4)
+gender char(1) CHECK (gender IN ('M', 'F')),
+level char(4)  CHECK (level IN ('paid', 'free'))
 )
 """)
 
