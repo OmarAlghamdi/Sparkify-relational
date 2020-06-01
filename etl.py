@@ -6,6 +6,16 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Processes song data into song and artist data
+
+    Loads JSON file into Pandas DataFrame then extracts the song info and artist info. Then add them into the database.
+
+    Parameters:
+        cur (cursor): psycopg2 cursor object
+        filepath (sting): string path to a song data in JSON format
+    """
+
     # opens json file as Pandas DataFrame
     df = pd.read_json(filepath, lines=True)
 
@@ -54,6 +64,16 @@ def transform_weekday(wd):
 
 
 def process_log_file(cur, filepath):
+    """
+    Processes log files into user, time and songplay data
+
+    loads logs from JSON into Pandas DataFrame then extracts users from the logs based on userId, time data based on timestamps and songplays. Duplicate timestamps and users are dropped from the DataFrame before attempting to insert them in the database to reduce the number of conflicts.
+
+    Parameters:
+        cur (cursor): psycopg2 cursor object
+        filepath (string): string path to a logs in JSON format
+    """
+
     # opens json log file as Pandas DataFrame
     df = pd.read_json(filepath, lines=True)
 
@@ -99,6 +119,18 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    [summary]
+
+    [desc]
+
+    Parameters:
+        cur (cursor): psycopg2 cursor object
+        conn (connection): psycopg2 connection object
+        filepath (string): path to the directory holding data as JOSN
+        func (function): function to process song data or log data 
+    """
+
     # reads json file in the given directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
