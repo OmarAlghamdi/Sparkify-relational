@@ -3,51 +3,52 @@
 entity songplays{
     songplay_id : SERIAL <<PK>>
     --
-    start_time : long <<NOT NULL>>
+    start_time : bigint
     user_id : int <<FK>>
-    level : char(4) <<NOT NULL>> <<free|paid>>
+    level : char(4)  <<free|paid>>
     song_id : varchar <<FK>>
     artist_id : varchar <<FK>>
-    session_id : int <<NOT NULL>>
+    session_id : int 
     location : varchar
-    user_agent : varchar <<NOT NULL>>
+    user_agent : varchar 
 }
 
 entity users{
     user_id : int <<PK>>
     --
-    first_name : varchar <<NOT NULL>>
-    last_name : varchar <<NOT NULL>>
-    gender : char(1) <<NOT NULL>> <<M|F>>
-    level : char(4) <<NOT NULL>> <<free|paid>>
+    first_name : varchar 
+    last_name : varchar 
+    gender : char(1) <<M|F>>
+    level : char(4) <<free|paid>>
 }
 
 entity artists{
     artist_id : varchar <<PK>>
     --
-    name : varchar <<NOT NULL>>
+    name : varchar 
     location : varchar
-    latitude : float
-    longitude : float
+    latitude : real
+    longitude : real
 }
 
 entity time{
-    start_time : long <<NOT NULL>>
-    hour : int <<NOT NULL>>
-    day : int <<NOT NULL>>
-    week : int <<NOT NULL>>
-    month : int <<NOT NULL>>
-    year : int <<NOT NULL>>
-    weekday : varchar <<NOT NULL>>
+    start_time : bigint <<PK>>
+    --
+    hour : int 
+    day : int 
+    week : int 
+    month : varchar 
+    year : int 
+    weekday : varchar 
 }
 
 entity songs{
-    song_id : string <<PK>>
+    song_id : varchar <<PK>>
     --
     artist_id : varchar <<FK>>
     year : int
-    duration : float <<NOT NULL>>
-    title : varchar <<NOT NULL>>
+    duration : real 
+    title : varchar 
 }
 
 songplays }o--|| users
