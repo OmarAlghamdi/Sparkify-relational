@@ -33,15 +33,15 @@ Below is DB schema and the first 5 rows of each table
 
 ![schema](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/schema.png)
 ### songplays
-![songplays table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/songplays-table.png)
+![songplays table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/songplays-table.PNG)
 ### users
-![users table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/users-table.png)
+![users table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/users-table.PNG)
 ### time
-![time table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/time-table.png)
+![time table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/time-table.PNG)
 ### songs
-![songs table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/songs-table.png)
+![songs table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/songs-table.PNG)
 ### artists
-![artists table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/artists-table.png)
+![artists table](https://github.com/OmarAlghamdi/Sparkify-relational/blob/master/diagrams/artists-table.PNG)
 
 
 ## Dependncies
